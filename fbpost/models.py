@@ -18,10 +18,19 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='commenter')
+    # parent_comment = models.ForeignKey('self', on_delete=models.CASCADE, related_name='child_comments', default=None,
+    #                                    null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
-    comment_at=models.DateTimeField()
-    comment_content=models.TextField()
+    comment_at = models.DateTimeField()
+    comment_content = models.TextField()
+
+
+class Reply(models.Model):
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='reply')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reply')
+    reply_at = models.DateTimeField()
+    reply_content = models.TextField()
 
 
 class Reactions(models.Model):
@@ -36,3 +45,4 @@ class Reactions(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='reaction', default=None, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reaction')
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='reaction', default=None, null=True)
+    reply = models.ForeignKey(Reply, on_delete=models.CASCADE, related_name='reaction', default=None, null=True)
