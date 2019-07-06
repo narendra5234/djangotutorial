@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6570e5e5-517b-4fcc-a1e2-1df655692317" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fbpost.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/fbpost.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fbpost/migrations/0001_initial.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/fbpost/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/fbpost/models.py" afterDir="false" />
-    </list>
+    <list default="true" id="6570e5e5-517b-4fcc-a1e2-1df655692317" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -103,7 +98,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="993" />
     <option name="y" value="25" />
     <option name="width" value="927" />
@@ -218,7 +213,14 @@
       <option name="project" value="LOCAL" />
       <updated>1562300436860</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="v3 completed">
+      <created>1562326618814</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1562326618814</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TodoView">
@@ -231,13 +233,13 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="993" y="25" width="927" height="1055" extended-state="5" />
+    <frame x="67" y="25" width="1853" height="1055" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Favorites" order="0" side_tool="true" />
       <window_info content_ui="combo" id="Project" order="1" weight="0.21902655" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="0" visible="true" weight="0.2300216" />
+      <window_info anchor="bottom" id="Terminal" order="0" weight="0.2300216" />
       <window_info anchor="bottom" id="Event Log" order="1" side_tool="true" weight="0.32937366" />
       <window_info anchor="bottom" id="Python Console" order="2" weight="0.32937366" />
       <window_info anchor="bottom" id="Message" order="3" />
@@ -301,7 +303,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="3 parts completed" />
     <MESSAGE value="v2 models completed" />
-    <option name="LAST_COMMIT_MESSAGE" value="v2 models completed" />
+    <MESSAGE value="v3 completed" />
+    <option name="LAST_COMMIT_MESSAGE" value="v3 completed" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/polls/tests.py">
