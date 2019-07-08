@@ -36,6 +36,6 @@ def create_actor(ACTORS):
     return actor
 
 
-def create_movie(title, date_of_release, actor_id):
-    movie = Movie.objects.create(title=title, date_of_release=date_of_release, actors=Actor.objects.get(id=actor_id))
+def create_movie(title, date_of_release):
+    movie = Movie.objects.create(title=title, date_of_release=date_of_release)
     return movie
