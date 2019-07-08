@@ -1,0 +1,14 @@
+def get_post(post_id):
+    try:
+        post=Post.objects.get(id=post_id)
+    except User.DoesNotExist:
+        print("Post Not Found")
+        return
+    d={}
+    d['post_id']=post_id
+    d['posted_by']=get_user(post)
+    d['posted_at']=str(post.post_datetime)[:-6]
+    d['post_content']=post.post_content
+    l=get_reactions(post)
+    d['reactions']={"count":len(l),"type":list(set(l))}
+    return d
