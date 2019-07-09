@@ -194,12 +194,12 @@ def contains(title):
 
 
 def top_paid_actor():
-    movie_cast = MovieCast.objects.order_by('-remuneration_in_usd', 'cast')[0]
+    movie_cast = MovieCast.objects.order_by('-remuneration_in_usd', 'cast__name')[0]
     return convert_actor_object_to_dict(movie_cast.cast)
 
 
 def least_paid_actor():
-    movie_cast = MovieCast.objects.order_by('remuneration_in_usd', 'cast')[0]
+    movie_cast = MovieCast.objects.order_by('remuneration_in_usd', 'cast__name')[0]
     return convert_actor_object_to_dict(movie_cast.cast)
 
 
@@ -221,7 +221,7 @@ def movies_casted_by_actors(unique_id):
 
 
 def get_actor_by_month_and_role():
-    actor_query_set = Actor.objects.filter(date_of_birth__month='02', moviecast__role="heroine")
+    actor_query_set = Actor.objects.filter(date_of_birth__month=2, moviecast__role="heroine")
     list_of_actors = []
     for actor in actor_query_set:
         list_of_actors.append(convert_actor_object_to_dict(actor))
@@ -250,7 +250,7 @@ def get_actors_casted_in_movies():
 def get_actors_casted_in_particular_movies():
     moviecast_query_set = MovieCast.objects.filter(
         (Q(movie__title='Titanic') | Q(movie__title='Avatar')) & (
-                ~Q(movie__title='Inception') & ~Q(movie__title='Clash of titans'))).order_by(
+                ~Q(movie__title='Inception') | ~Q(movie__title='Clash of titans'))).order_by(
         'remuneration_in_usd')
     list_of_actors = []
     for moviecast in moviecast_query_set:
@@ -263,7 +263,9 @@ def all_the_actors_casted(list_of_movie_titles):
     for movie_title in list_of_movie_titles:
         moviecast_query_set = MovieCast.objects.filter(movie__title=movie_title)
         for moviecast in moviecast_query_set:
-            unique_actors.append(convert_actor_object_to_dict(moviecast.cast))
+            actors_dict=convert_actor_object_to_dict(moviecast.cast)
+            if actors_dict not in unique_actors:
+                unique_actors.append(actors_dict)
     return unique_actors
 
 
@@ -279,5 +281,7 @@ def match_months():
     moviecast_query_set = MovieCast.objects.filter(movie__date_of_release__month=F('cast__date_of_birth__month'))
     list_of_movies = []
     for moviecast in moviecast_query_set:
-        list_of_movies.append(convert_movie_object_to_dict(moviecast.movie))
+        movie_dict= convert_movie_object_to_dict(moviecast.movie)
+        if movie_dict not in list_of_movies:
+            list_of_movies.append(movie_dict)
     return list_of_movies
