@@ -158,17 +158,20 @@ def convert_actor_object_to_dict(actor):
             "unique_id": actor.unique_id}
 
 
-def convert_moviecast_object_to_dict(moviecast):
-    return {
-
-        "movie": convert_movie_object_to_dict(moviecast.movie),
-        "cast":
-            {
-                "actor": convert_actor_object_to_dict(moviecast.cast),
-                "role": moviecast.role,
-                "remuneration_in_usd": moviecast.remuneration_in_usd
-            }
-    }
+def convert_moviecast_object_to_dict(moviecast_query_set):
+    movie_cast_dictionary={}
+    for moviecast in moviecast_query_set:
+        movie_cast_dictionary['movie']=convert_movie_object_to_dict(moviecast.movie)
+        list_of_casts=[]
+        cast_dictionary={}
+        for actor in moviecast.cast.all():
+            cast_dictionary["actor"]= convert_actor_object_to_dict(actor)
+            cast_dictionary["role"]=actor.moviecast_set.role
+            cash_dictionary ["remuneration_in_usd"]=actor.moviecast_set.remuneration_in_usd
+            list_of_casts.append(cast_dictionary)
+        movie_cast_dictionary ['cast']=list_of_casts
+    return movie_cast_dictionary 
+ 
 
 
 def convert_movie_object_to_dict(movie):
@@ -260,6 +263,7 @@ def get_actors_casted_in_particular_movies():
 
 def all_the_actors_casted(list_of_movie_titles):
     unique_actors = []
+    actor_id=[]
     for movie_title in list_of_movie_titles:
         moviecast_query_set = MovieCast.objects.filter(movie__title=movie_title)
         for moviecast in moviecast_query_set:
@@ -280,8 +284,10 @@ def complete_movie_details(title):
 def match_months():
     moviecast_query_set = MovieCast.objects.filter(movie__date_of_release__month=F('cast__date_of_birth__month'))
     list_of_movies = []
+    list_of_movies_id=[]
     for moviecast in moviecast_query_set:
-        movie_dict= convert_movie_object_to_dict(moviecast.movie)
-        if movie_dict not in list_of_movies:
-            list_of_movies.append(movie_dict)
+        movie_id=moviecast.movie.id
+        if movie_id not in list_of_movies_id:
+            list_of_movies_id.append(movie_id)
+            list_of_movies.append(convert_movie_object_to_dict(moviecast.movie))
     return list_of_movies
