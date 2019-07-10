@@ -1,3 +1,4 @@
+from django.core.validators import *
 from django.db import models
 from django.db.models import Q, F, FloatField, OuterRef, Subquery
 from django.db.models import Sum, Count
@@ -28,3 +29,10 @@ class MovieCast(models.Model):
     cast = models.ForeignKey(Actor, on_delete=models.CASCADE)
     role = models.TextField()
     remuneration_in_usd = models.FloatField()
+
+
+class MovieRating(models.Model):
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE,
+                              related_name='movie_ratings')
+    rating = models.IntegerField(validators=[MaxValueValidator(5), MinValueValidator(1)])
+    no_of_ratings = models.IntegerField()

@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     #'new.apps.NewConfig',
     'imdb.apps.ImdbConfig',
     #'fbpost.apps.FbpostConfig',
+    #'aggregations.apps.AggregationsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
