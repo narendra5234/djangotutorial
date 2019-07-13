@@ -34,7 +34,7 @@ ACTORS = [
         "gender": "female",
         "date_of_birth": date(1990, 5, 20),
         "unique_id": "5"
-    },
+    }
 
 ]
 MOVIES = [
@@ -296,8 +296,7 @@ def all_the_actors_casted(list_of_movie_titles):
 
 def complete_details_in_dict(moviecast, title):
     movie = Movie.objects.get(title=title)
-    movie_cast_dictionary = {'movie': convert_movie_object_to_dict(movie)}\
-
+    movie_cast_dictionary = {'movie': convert_movie_object_to_dict(movie)}
     list_of_casts = []
     for movie_cast_obj in moviecast:
         cast_dictionary = {
@@ -346,3 +345,5 @@ def add_ratings():
     MovieRating.objects.filter(movie__actor__name="Robert Downey Jr", rating=1).update(
         no_of_ratings=F('no_of_ratings') + 100)
     return
+
+

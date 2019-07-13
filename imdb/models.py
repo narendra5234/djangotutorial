@@ -9,6 +9,7 @@ class Actor(models.Model):
     gender = models.TextField()
     date_of_birth = models.DateField()
     unique_id = models.CharField(max_length=255, unique=True)
+    born_in_country = models.CharField(max_length=500)
 
     def __str__(self):
         return self.name
@@ -17,7 +18,7 @@ class Actor(models.Model):
 class Movie(models.Model):
     title = models.TextField()
     date_of_release = models.DateField()
-    actor = models.ManyToManyField(Actor, through='MovieCast')
+    actors = models.ManyToManyField(Actor, through='MovieCast')
 
     def __str__(self):
         return self.title
