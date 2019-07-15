@@ -23,11 +23,10 @@ def convert_user_to_dict(user):
 
 
 def covert_reaction_to_dict(reaction):
-    list_of_reactions = []
     reaction_dictionary = {}
-    for reaction_object in reaction.all():
-        list_of_reactions.append(reaction_object.react_type)
-    reaction_dictionary['reactions'] = {"count": len(list_of_reactions), "type": list(set(list_of_reactions))}
+    reaction_queryset = reaction.all()
+    reaction_dictionary['reactions'] = {"count": reaction_queryset.count(),
+                                        "type": list(reaction_queryset.values_list('react_type', flat=True).distinct())}
     return reaction_dictionary
 
 
@@ -115,7 +114,7 @@ def get_user_posts(user_id):
         User.objects.get(id=user_id)
     except User.DoesNotExist:
         print("User Not Found")
-    post_ids = Post.objects.filter(user_id=user_id).values_list('id',flat=True)
+    post_ids = Post.objects.filter(user_id=user_id).values_list('id', flat=True)
     list_of_user_posts = []
     for post in post_ids:
         list_of_user_posts.append(get_post(post))
@@ -243,7 +242,7 @@ def react_to_comment(user_id, comment_id, reaction_type):
         reaction = Reactions.objects.get(user_id=user_id, comment_id=comment_id)
     except Reactions.DoesNotExist:
         print("No Reaction Found")
-        r = Reactions.objects.create(react_type=reaction_type, user=user, comment=comment)
+        reaction = Reactions.objects.create(react_type=reaction_type, user=user, comment=comment)
         return
     if reaction_type == reaction.react_type:
         reaction.delete()
@@ -263,13 +262,15 @@ def reply_to_comment(comment_id, user_id, reply_text):
     except Comment.DoesNotExist:
         print("Invalid Comment")
         return
-    if comment.parent_comment != None:
+    if comment.parent_comment == None:
+        reply = Comment.objects.create(commented_by=user, comment_at=covert_datetime_object_to_string(datetime.now()),
+                                       comment_content=reply_text)
+
+    else:
         reply = Comment.objects.create(parent_comment=comment, commented_by=user,
                                        comment_at=covert_datetime_object_to_string(datetime.now()),
                                        comment_content=reply_text)
-    else:
-        reply = Comment.objects.create(commented_by=user, comment_at=covert_datetime_object_to_string(datetime.now()),
-                                       comment_content=reply_text)
+
     return reply.id
 
 
@@ -279,6 +280,6 @@ def get_replies_for_comment(comment_id):
     except Comment.DoesNotExist:
         print("Invalid Comment")
         return
-    list_of_reply_dictionary = covert_comment_to_dict(comment.comment)
+    list_of_reply_dictionary = covert_comment_to_dict(comment)
     list_of_reply_dictionary.pop('reactions', None)
     return list_of_reply_dictionary
