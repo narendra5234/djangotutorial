@@ -125,33 +125,21 @@ def delete_post(post_id):
 
 
 def react_to_post(user_id, post_id, reaction_type):
-    try:
-        user = User.objects.get(id=user_id)
-    except User.DoesNotExist:
-        print("Invalid User")
-        return
-    try:
-        post = Post.objects.get(id=post_id)
-    except Post.DoesNotExist:
-        print("Invalid Post")
-        return
+    user = User.objects.get(id=user_id)
+    post = Post.objects.get(id=post_id)
     if reaction_type not in [ReactionType.HAHA.value, ReactionType.LIKE.value, ReactionType.SAD.value,
                              ReactionType.WOW.value, ReactionType.LOVE.value]:
-        print("Reaction doesn't exist")
-        return
+        raise Exception('Reaction DoesNotExist')
 
     try:
-        reaction = Reactions.objects.get(user_id=user_id, post_id=post_id)
+        reaction=Reactions.objects.get(user=user,post=post)
+        if reaction_type == reaction.react_type:
+            reaction.delete()
+        elif reaction_type != reaction.react_type:
+            reaction.react_type = reaction_type
+            reaction.save()
     except Reactions.DoesNotExist:
-        print("No Reaction Found")
-        reaction = Reactions.objects.create(react_type=reaction_type, post=post,
-                                            user=user)
-        return
-    if reaction_type == reaction.react_type:
-        reaction.delete()
-    else:
-        reaction.react_type = reaction_type
-        reaction.save()
+        Reactions.objects.create(react_type=reaction_type, post=post,user=user)
 
 
 def get_posts_reacted_by_user(user_id):

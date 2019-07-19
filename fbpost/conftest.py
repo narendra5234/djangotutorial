@@ -43,3 +43,12 @@ def post_setup():
                                              comment_at=datetime.now(), comment_content="reply1")
     first_reply.reaction.create(react_type="LIKE", user=first_user)
     return list_of_posts
+
+
+@pytest.fixture
+def post_without_reaction_setup():
+    list_of_posts = []
+    for item in POSTS:
+        post = Post.objects.create(post_datetime=item["post_datetime"], post_content=item["post_content"],
+                                   user=User.objects.get(id=item["user_id"]))
+        list_of_posts.append(post)

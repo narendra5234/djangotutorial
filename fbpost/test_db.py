@@ -122,64 +122,172 @@ class TestAddComment:
 
     @pytest.mark.django_db
     def test_add_comment(self, user_setup, post_setup):
+        # ARRANGE
         user_id = 1
         post_id = 1
         comment_content = "comment1"
-        comment_id = add_comment(post_id, user_id, "comment1")
+        comment_id = add_comment(post_id, user_id, "comment1")  # ACT
         comment = Comment.objects.get(id=comment_id)
+        # ASSERT
         assert comment.comment_content == comment_content
         assert comment.commented_by.id == user_id
         assert comment.post.id == post_id
 
-# # REACTIONS TO POST
-# @pytest.mark.django_db
-# def test_react_to_post(user_setup, post_setup):
-#     reaction = react_to_post(1, 1, "WOW")
-#     assert reaction.react_type == "WOW"
-#     assert reaction.user.id == 1
-#     assert reaction.post.id == 1
-#
-#
-# @pytest.mark.django_db
-# def test_react_to_post_no_user(user_setup, post_setup):
-#     with pytest.raises(User.DoesNotExist):
-#         react_to_post(5, 1, "WOW")
-#
-#
-# @pytest.mark.django_db
-# def test_react_to_post_no_post(user_setup, post_setup):
-#     with pytest.raises(Post.DoesNotExist):
-#         react_to_post(1, 5, "WOW")
-#
-#
-# @pytest.mark.django_db
-# def test_react_to_post_no_reaction(user_setup, post_setup):
-#     with pytest.raises(Exception, match=r"Reaction"):
-#         react_to_post(1, 1, "SUPER")
 
+# REACTIONS TO POST
+class TestReactToPost:
+    @pytest.mark.django_db
+    def test_react_to_post_no_user(self, user_setup, post_setup):
+        # ARRANGE
+        user_id = 5
+        post_id = 1
+        reaction_type = ReactionType.WOW.value
 
-# REACTIONS TO COMMENT
-# @pytest.mark.django_db
-# def test_react_to_comment(user_setup):
-#     reaction = react_to_comment(1, 1, "WOW")
-#     assert reaction.react_type == "WOW"
-#     assert reaction.user.id == 1
-#     assert reaction.comment.id == 1
+        # ACT
+        with pytest.raises(User.DoesNotExist):
+            react_to_post(user_id, post_id, reaction_type)
+
+    @pytest.mark.django_db
+    def test_react_to_post_no_post(self, user_setup, post_setup):
+        # ARRANGE
+        user_id = 1
+        post_id = 5
+        reaction_type = ReactionType.WOW.value
+
+        # ACT
+        with pytest.raises(Post.DoesNotExist):
+            react_to_post(user_id, post_id, reaction_type)
+
+    @pytest.mark.django_db
+    def test_react_to_post_no_reaction(self, user_setup, post_setup):
+        # ARRANGE
+        user_id = 1
+        post_id = 1
+        reaction_type = "SUPER"
+
+        # ACT
+        with pytest.raises(Exception, match=r"Reaction"):
+            react_to_post(user_id, post_id, reaction_type)
+
+    @pytest.mark.django_db
+    def test_react_to_post_same_reaction(self, user_setup, post_setup):
+        # ARRANGE
+        user_id = 1
+        post_id = 1
+        reaction_type = ReactionType.HAHA.value
+        post = Post.objects.get(id=1)
+        reaction = post.reaction.all()
+
+        assert len(reaction) == 1  # ASSERT
+
+        react_to_post(user_id, post_id, reaction_type)  # ACT
+        reaction = post.reaction.all()
+
+        assert len(reaction) == 0  # ASSERT
+
+    @pytest.mark.django_db
+    def test_react_to_post_different_reaction(self, user_setup, post_setup):
+        # ARRANGE
+        user_id = 1
+        post_id = 1
+        reaction_type = ReactionType.WOW.value
+        post = Post.objects.get(id=1)
+        reaction = post.reaction.all()
+
+        assert len(reaction) == 1  # ASSERT
+
+        react_to_post(user_id, post_id, reaction_type)  # ACT
+        reaction = post.reaction.all()
+
+        # ASSERT
+        assert len(reaction) == 1
+        assert reaction[0].react_type == reaction_type
+
+    @pytest.mark.django_db
+    def test_react_to_post_create_reaction(self, user_setup, post_without_reaction_setup):
+        # ARRANGE
+        user_id = 1
+        post_id = 1
+        reaction_type = ReactionType.WOW.value
+        post = Post.objects.get(id=1)
+        reaction = post.reaction.all()
+
+        assert len(reaction) == 0  # ASSERT
+        react_to_post(user_id, post_id, reaction_type)  # ACT
+        reaction = post.reaction.all()
+
+        # ASSERT
+        assert len(reaction) == 1
+        assert reaction[0].react_type == reaction_type
+
 #
+# class TestReactToComment:
+#     @pytest.mark.django_db
+#     def test_react_to_comment_no_user(self, user_setup, post_setup):
+#         user_id = 5
+#         comment_id = 1
+#         reaction_type = ReactionType.WOW.value
+#         with pytest.raises(User.DoesNotExist):
+#             react_to_comment(user_id, comment_id, reaction_type)
 #
-# @pytest.mark.django_db
-# def test_react_to_comment_no_user(user_setup):
-#     with pytest.raises(User.DoesNotExist):
-#         react_to_comment(5, 1, "WOW")
+#     @pytest.mark.django_db
+#     def test_react_to_comment_no_post(self, user_setup, post_setup):
+#         # ARRANGE
+#         user_id = 1
+#         comment_id = 5
+#         reaction_type = ReactionType.WOW.value
+#         # ACT
+#         with pytest.raises(Comment.DoesNotExist):
+#             react_to_comment(user_id, comment_id, reaction_type)
 #
+#     @pytest.mark.django_db
+#     def test_react_to_comment_no_reaction(self, user_setup, post_setup):
+#         # ARRANGE
+#         user_id = 1
+#         comment_id = 1
+#         reaction_type = "SUPER"
+#         # ACT
+#         with pytest.raises(Exception, match=r"Reaction"):
+#             react_to_comment(user_id, comment_id, reaction_type)
 #
-# @pytest.mark.django_db
-# def test_react_to_comment_no_comment(user_setup, post_setup):
-#     with pytest.raises(Comment.DoesNotExist):
-#         react_to_comment(1, 5, "WOW")
+#     @pytest.mark.django_db
+#     def test_react_to_comment_same_reaction(self, user_setup, post_setup):
+#         # ARRANGE
+#         user_id = 1
+#         comment_id = 1
+#         reaction_type = ReactionType.HAHA.value
+#         comment = Comment.objects.get(id=1)
+#         reaction = comment.reaction.all()
+#         assert len(reaction) == 1  # ASSERT
+#         react_to_comment(user_id, comment_id, reaction_type)  # ACT
+#         reaction = comment.reaction.all()
+#         assert len(reaction) == 0  # ASSERT
 #
+#     @pytest.mark.django_db
+#     def test_react_to_comment_different_reaction(self, user_setup, post_setup):
+#         # ARRANGE
+#         user_id = 1
+#         comment_id = 1
+#         reaction_type = ReactionType.WOW.value
+#         comment = Comment.objects.get(id=1)
+#         reaction = comment.reaction.all()
+#         assert len(reaction) == 1  # ASSERT
+#         react_to_comment(user_id, post_id, reaction_type)  # ACT
+#         reaction = comment.reaction.all()
+#         # ASSERT
+#         assert len(reaction) == 1
+#         assert reaction[0].react_type == reaction_type
 #
-# @pytest.mark.django_db
-# def test_react_to_comment_no_reaction(user_setup, post_setup):
-#     with pytest.raises(Exception, match=r"Reaction"):
-#         react_to_comment(1, 1, "SUPER")
+#     @pytest.mark.django_db
+#     def test_react_to_comment_create_reaction(self, user_setup, post1_setup):
+#         user_id = 1
+#         comment_id = 1
+#         reaction_type = ReactionType.WOW.value
+#         comment = Comment.objects.get(id=1)
+#         reaction = comment.reaction.all()
+#         assert len(reaction) == 0  # ASSERT
+#         react_to_comment(user_id, comment_id, reaction_type)  # ACT
+#         reaction = post.reaction.all()
+#         # ASSERT
+#         assert len(reaction) == 1
+#         assert reaction[0].react_type == reaction_type
