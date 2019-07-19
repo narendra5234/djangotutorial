@@ -62,25 +62,22 @@ def covert_comment_to_dict(comment):
 
 def get_post(post_id):
     post = Post.objects.select_related('user').prefetch_related('reaction',
-                                                                    Prefetch('comments',
-                                                                             queryset=Comment.objects.select_related(
-                                                                                 'commented_by').prefetch_related(
-                                                                                 'reaction').prefetch_related(
-                                                                                 Prefetch('reply',
-                                                                                          queryset=Comment.objects.select_related(
-                                                                                              'commented_by').prefetch_related(
-                                                                                              'reaction').prefetch_related(
-                                                                                              'reply')))),
-                                                                    ).get(id=post_id)
+                                                                Prefetch('comments',
+                                                                         queryset=Comment.objects.select_related(
+                                                                             'commented_by').prefetch_related(
+                                                                             'reaction').prefetch_related(
+                                                                             Prefetch('reply',
+                                                                                      queryset=Comment.objects.select_related(
+                                                                                          'commented_by').prefetch_related(
+                                                                                          'reaction').prefetch_related(
+                                                                                          'reply')))),
+                                                                ).get(id=post_id)
 
     return convert_post_to_post_dict(post)
 
 
 def get_user_posts(user_id):
-    try:
-        User.objects.get(id=user_id)
-    except User.DoesNotExist:
-        print("User Not Found")
+    User.objects.get(id=user_id)
     post_query_set = Post.objects.filter(user__id=user_id).select_related('user').prefetch_related('reaction',
                                                                                                    Prefetch('comments',
                                                                                                             queryset=Comment.objects.select_related(
@@ -132,32 +129,24 @@ def react_to_post(user_id, post_id, reaction_type):
         raise Exception('Reaction DoesNotExist')
 
     try:
-        reaction=Reactions.objects.get(user=user,post=post)
+        reaction = Reactions.objects.get(user=user, post=post)
         if reaction_type == reaction.react_type:
             reaction.delete()
         elif reaction_type != reaction.react_type:
             reaction.react_type = reaction_type
             reaction.save()
     except Reactions.DoesNotExist:
-        Reactions.objects.create(react_type=reaction_type, post=post,user=user)
+        Reactions.objects.create(react_type=reaction_type, post=post, user=user)
 
 
 def get_posts_reacted_by_user(user_id):
-    try:
-        User.objects.get(id=user_id)
-    except User.DoesNotExist:
-        print("User Not Found")
-        return
+    User.objects.get(id=user_id)
     list_of_post_ids = Post.objects.filter(reaction__user_id=user_id).values_list('id', flat=True)
     return list(list_of_post_ids)
 
 
 def get_reactions_to_post(post_id):
-    try:
-        Post.objects.get(id=post_id)
-    except Post.DoesNotExist:
-        print("Post Not Found")
-        return
+    Post.objects.get(id=post_id)
     list_of_reactions = []
     reaction_query_set = Reactions.objects.filter(post_id=post_id).select_related('user')
     for reaction in reaction_query_set:
@@ -168,11 +157,7 @@ def get_reactions_to_post(post_id):
 
 
 def get_reaction_metrics(post_id):
-    try:
-        Post.objects.get(id=post_id)
-    except Post.DoesNotExist:
-        print("Post Not Found")
-        return
+    Post.objects.get(id=post_id)
     reaction_dictionary = Reactions.objects.filter(post_id=post_id).values('react_type').annotate(
         reaction_count=Count('post'))
     reaction_metrics = {}
@@ -201,45 +186,27 @@ def add_comment(post_id, user_id, comment_text):
 
 
 def react_to_comment(user_id, comment_id, reaction_type):
-    try:
-        user = User.objects.get(id=user_id)
-    except User.DoesNotExist:
-        print("Invalid User")
-        return
-    try:
-        comment = Comment.objects.get(id=comment_id)
-    except Comment.DoesNotExist:
-        print("Invalid Comment")
-        return
+    user = User.objects.get(id=user_id)
+    comment = Comment.objects.get(id=comment_id)
+
     if reaction_type not in [ReactionType.HAHA.value, ReactionType.LIKE.value, ReactionType.SAD.value,
                              ReactionType.WOW.value, ReactionType.LOVE.value]:
-        print("Reaction doesn't exist")
-        return
-
+        raise Exception("Reaction Does Not Exist")
     try:
         reaction = Reactions.objects.get(user_id=user_id, comment_id=comment_id)
+        if reaction_type == reaction.react_type:
+            reaction.delete()
+        else:
+            reaction.react_type = reaction_type
+            reaction.save()
     except Reactions.DoesNotExist:
-        print("No Reaction Found")
         Reactions.objects.create(react_type=reaction_type, user=user, comment=comment)
-        return
-    if reaction_type == reaction.react_type:
-        reaction.delete()
-    else:
-        reaction.react_type = reaction_type
-        reaction.save()
 
 
 def reply_to_comment(comment_id, user_id, reply_text):
-    try:
-        user = User.objects.get(id=user_id)
-    except User.DoesNotExist:
-        print("Invalid User")
-        return
-    try:
-        comment = Comment.objects.get(id=comment_id)
-    except Comment.DoesNotExist:
-        print("Invalid Comment")
-        return
+    user = User.objects.get(id=user_id)
+    comment = Comment.objects.get(id=comment_id)
+
     if comment.parent_comment is None:
         reply = Comment.objects.create(commented_by=user, comment_at=covert_datetime_object_to_string(datetime.now()),
                                        comment_content=reply_text)
@@ -253,17 +220,20 @@ def reply_to_comment(comment_id, user_id, reply_text):
 
 
 def get_replies_for_comment(comment_id):
-    try:
-        comment = Comment.objects.select_related('commented_by').prefetch_related('reaction',
-            Prefetch('reply', queryset=Comment.objects.select_related(
-                'commented_by').prefetch_related(
-                'reply'))).get(id=comment_id)
-    except Comment.DoesNotExist:
-        print("Invalid Comment")
-        return
-    list_of_reply_dictionary = covert_comment_to_dict(comment)
-    list_of_reply_dictionary.pop('reactions', None)
+    comment = Comment.objects.select_related('commented_by').prefetch_related('reaction',
+                                                                              Prefetch('reply',
+                                                                                       queryset=Comment.objects.select_related(
+                                                                                           'commented_by').prefetch_related(
+                                                                                           'reply'))).get(
+        id=comment_id)
+    reply_query_set = comment.reply.all()
+    list_of_reply_dictionary = []
+    for reply in reply_query_set:
+        reply_dictionary = {
+            "comment_id": reply.id,
+            "commenter": convert_user_to_dict(reply.commented_by),
+            "commented_at": covert_datetime_object_to_string(reply.comment_at),
+            "comment_content": reply.comment_content
+        }
+        list_of_reply_dictionary.append(reply_dictionary)
     return list_of_reply_dictionary
-
-
-
