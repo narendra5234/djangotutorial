@@ -83,6 +83,10 @@ class TestGetPost:
         comment_queryset = post.comments.all()
         comment = post.comments.all()[0]
         comment_reaction = comment.reaction.all()
+
+        assert len(comment_reaction) == 1
+        assert len(post_dictionary["comments"]) == 1
+
         comment_dictionary = post_dictionary["comments"][0]
         assert comment_dictionary["comment_id"] == comment.id
         assert comment_dictionary["commenter"] == {"name": comment.commented_by.username,
@@ -96,6 +100,10 @@ class TestGetPost:
         reply_queryset = comment.reply.all()
         reply = comment.reply.all()[0]
         reply_reaction = reply.reaction.all()
+
+        assert len(reply_reaction) == 1
+        assert len(post_dictionary["comments"][0]["replies"]) == 1
+
         reply_dictionary = post_dictionary["comments"][0]["replies"][0]
         assert post_dictionary["comments"][0]["replies_count"] == len(reply_queryset)
         assert reply_dictionary["comment_id"] == reply.id

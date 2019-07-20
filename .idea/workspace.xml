@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6570e5e5-517b-4fcc-a1e2-1df655692317" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Untitled1.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Untitled1.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fbpost/conftest.py" beforeDir="false" afterPath="$PROJECT_DIR$/fbpost/conftest.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fbpost/model_methods.py" beforeDir="false" afterPath="$PROJECT_DIR$/fbpost/model_methods.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fbpost/test_db.py" beforeDir="false" afterPath="$PROJECT_DIR$/fbpost/test_db.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -15,32 +14,41 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.4306011">
+    <splitter split-orientation="horizontal" split-proportion="0.5355191">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/fbpost/test_db.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="90">
-                  <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
+                <state relative-caret-position="255">
+                  <caret line="52" column="18" selection-start-line="52" selection-start-column="18" selection-end-line="52" selection-end-column="18" />
                   <folding>
                     <element signature="e#0#27#0" expanded="true" />
-                    <element signature="e#333#586#0" />
-                    <element signature="e#513#1040#0" />
-                    <element signature="e#1077#3884#0" />
-                    <element signature="e#1350#3884#0" />
-                    <element signature="e#3927#4334#0" />
-                    <element signature="e#4377#5160#0" />
-                    <element signature="e#5210#7157#0" />
+                    <element signature="e#211#468#0" />
+                    <element signature="e#511#1038#0" />
+                    <element signature="e#1212#4331#0" />
+                    <element signature="e#3925#4332#0" />
+                    <element signature="e#4375#5200#0" />
+                    <element signature="e#5250#7786#0" />
+                    <element signature="e#8568#11292#0" />
+                    <element signature="e#11353#12016#0" />
+                    <element signature="e#13093#13415#0" />
+                    <element signature="e#14483#15541#0" />
+                    <element signature="e#14625#15896#0" />
                   </folding>
                 </state>
               </provider>
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/fbpost/tests.py">
+              <provider selected="true" editor-type-id="text-editor" />
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/fbpost/model_methods.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="270">
+                <state relative-caret-position="-2276">
                   <caret line="38" column="93" selection-start-line="38" selection-start-column="93" selection-end-line="38" selection-end-column="93" />
                   <folding>
                     <element signature="e#0#27#0" expanded="true" />
@@ -52,7 +60,7 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/fbpost/models.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="465">
+                <state relative-caret-position="600">
                   <caret line="40" column="40" lean-forward="true" selection-start-line="40" selection-start-column="40" selection-end-line="40" selection-end-column="40" />
                   <folding>
                     <element signature="e#0#28#0" expanded="true" />
@@ -61,15 +69,27 @@
               </provider>
             </entry>
           </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$USER_HOME$/Desktop/learning/practice_problems/Django/fb_post_v3/django_db_practice.md">
+              <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+                <state split_layout="SPLIT">
+                  <first_editor relative-caret-position="755">
+                    <caret line="198" column="3" lean-forward="true" selection-start-line="198" selection-start-column="3" selection-end-line="198" selection-end-column="3" />
+                  </first_editor>
+                  <second_editor />
+                </state>
+              </provider>
+            </entry>
+          </file>
         </leaf>
       </split-first>
       <split-second>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/fbpost/model_methods.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-30">
-                  <caret line="202" column="20" selection-start-line="202" selection-start-column="4" selection-end-line="202" selection-end-column="20" />
+                <state relative-caret-position="-1245">
+                  <caret line="79" column="32" selection-start-line="79" selection-start-column="32" selection-end-line="79" selection-end-column="32" />
                   <folding>
                     <element signature="e#0#27#0" expanded="true" />
                   </folding>
@@ -77,11 +97,11 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="false">
+          <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/fbpost/conftest.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="361">
-                  <caret line="46" lean-forward="true" selection-start-line="46" selection-end-line="46" />
+                <state relative-caret-position="465">
+                  <caret line="31" column="20" lean-forward="true" selection-start-line="31" selection-start-column="20" selection-end-line="31" selection-end-column="20" />
                   <folding>
                     <element signature="e#0#27#0" expanded="true" />
                   </folding>
@@ -133,14 +153,15 @@
         <option value="$PROJECT_DIR$/conftest.py" />
         <option value="$PROJECT_DIR$/test_sample.py" />
         <option value="$PROJECT_DIR$/test_assert.py" />
+        <option value="$PROJECT_DIR$/fbpost/tests.py" />
         <option value="$PROJECT_DIR$/fbpost/model_methods.py" />
         <option value="$PROJECT_DIR$/fbpost/conftest.py" />
         <option value="$PROJECT_DIR$/fbpost/test_db.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="993" />
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="x" value="67" />
     <option name="y" value="25" />
     <option name="width" value="927" />
     <option name="height" value="1055" />
@@ -320,7 +341,21 @@
       <option name="project" value="LOCAL" />
       <updated>1562590993802</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="added classes for react_to_post">
+      <created>1563522175620</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1563522175620</updated>
+    </task>
+    <task id="LOCAL-00005" summary="tested all fbpost methods and ready for review">
+      <created>1563541074977</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1563541074977</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TodoView">
@@ -333,13 +368,13 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="67" y="25" width="1853" height="1055" extended-state="6" />
+    <frame x="67" y="25" width="1853" height="1055" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Favorites" order="0" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="1" weight="0.12349727" />
+      <window_info content_ui="combo" id="Project" order="1" weight="0.25" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="0" sideWeight="0.49778762" visible="true" weight="0.32721382" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="0" sideWeight="0.49778762" visible="true" weight="0.3099352" />
       <window_info anchor="bottom" id="Event Log" order="1" sideWeight="0.5022124" side_tool="true" weight="0.32829374" />
       <window_info anchor="bottom" id="Python Console" order="2" weight="0.32829374" />
       <window_info anchor="bottom" id="Message" order="3" />
@@ -356,9 +391,9 @@
     </layout>
     <layout-to-restore>
       <window_info id="Favorites" order="0" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.12349727" />
+      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.25" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="0" sideWeight="0.49778762" visible="true" weight="0.32721382" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="0" sideWeight="0.49778762" visible="true" weight="0.3099352" />
       <window_info anchor="bottom" id="Event Log" order="1" sideWeight="0.5022124" side_tool="true" weight="0.32829374" />
       <window_info anchor="bottom" id="Python Console" order="2" weight="0.32829374" />
       <window_info anchor="bottom" id="Message" order="3" />
@@ -428,16 +463,11 @@
     <MESSAGE value="3 parts completed" />
     <MESSAGE value="modularity done" />
     <MESSAGE value="IMDB" />
-    <option name="LAST_COMMIT_MESSAGE" value="IMDB" />
+    <MESSAGE value="added classes for react_to_post" />
+    <MESSAGE value="tested all fbpost methods and ready for review" />
+    <option name="LAST_COMMIT_MESSAGE" value="tested all fbpost methods and ready for review" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/polls/migrations/0011_auto_20190628_1612.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="23" column="5" selection-start-line="23" selection-start-column="5" selection-end-line="23" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/polls/apps.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -574,16 +604,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Desktop/learning/practice_problems/Django/fb_post_v3/django_db_practice.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="1725">
-            <caret line="115" column="3" selection-start-line="115" selection-start-column="3" selection-end-line="115" selection-end-column="3" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Desktop/learning/resources/mock.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
@@ -688,9 +708,19 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/Desktop/learning/practice_problems/Django/fb_post_v3/django_db_practice.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="755">
+            <caret line="198" column="3" lean-forward="true" selection-start-line="198" selection-start-column="3" selection-end-line="198" selection-end-column="3" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/fbpost/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
+        <state relative-caret-position="600">
           <caret line="40" column="40" lean-forward="true" selection-start-line="40" selection-start-column="40" selection-end-line="40" selection-end-column="40" />
           <folding>
             <element signature="e#0#28#0" expanded="true" />
@@ -698,20 +728,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/fbpost/conftest.py">
+    <entry file="file://$PROJECT_DIR$/fbpost/tests.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fbpost/model_methods.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
-          <caret line="46" lean-forward="true" selection-start-line="46" selection-end-line="46" />
+        <state relative-caret-position="-2276">
+          <caret line="38" column="93" selection-start-line="38" selection-start-column="93" selection-end-line="38" selection-end-column="93" />
           <folding>
             <element signature="e#0#27#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/fbpost/model_methods.py">
+    <entry file="file://$PROJECT_DIR$/fbpost/conftest.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="38" column="93" selection-start-line="38" selection-start-column="93" selection-end-line="38" selection-end-column="93" />
+        <state relative-caret-position="465">
+          <caret line="31" column="20" lean-forward="true" selection-start-line="31" selection-start-column="20" selection-end-line="31" selection-end-column="20" />
           <folding>
             <element signature="e#0#27#0" expanded="true" />
           </folding>
@@ -720,17 +753,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/fbpost/test_db.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
+        <state relative-caret-position="255">
+          <caret line="52" column="18" selection-start-line="52" selection-start-column="18" selection-end-line="52" selection-end-column="18" />
           <folding>
             <element signature="e#0#27#0" expanded="true" />
-            <element signature="e#333#586#0" />
-            <element signature="e#513#1040#0" />
-            <element signature="e#1077#3884#0" />
-            <element signature="e#1350#3884#0" />
-            <element signature="e#3927#4334#0" />
-            <element signature="e#4377#5160#0" />
-            <element signature="e#5210#7157#0" />
+            <element signature="e#211#468#0" />
+            <element signature="e#511#1038#0" />
+            <element signature="e#1212#4331#0" />
+            <element signature="e#3925#4332#0" />
+            <element signature="e#4375#5200#0" />
+            <element signature="e#5250#7786#0" />
+            <element signature="e#8568#11292#0" />
+            <element signature="e#11353#12016#0" />
+            <element signature="e#13093#13415#0" />
+            <element signature="e#14483#15541#0" />
+            <element signature="e#14625#15896#0" />
           </folding>
         </state>
       </provider>
