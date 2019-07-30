@@ -1,3 +1,5 @@
+from typing import Dict, List, Any, Union
+
 from imdb.models import *
 from datetime import date
 from django.db.models import Q, F
@@ -32,7 +34,7 @@ ACTORS = [
         "gender": "female",
         "date_of_birth": date(1990, 5, 20),
         "unique_id": "5"
-    },
+    }
 
 ]
 MOVIES = [
@@ -57,6 +59,34 @@ MOVIES = [
         "date_of_release": date(2010, 5, 5)
     }
 ]
+RATING = [
+    {"movie_id": 1, "no_of_ratings": 50000, "rating": 5},
+    {"movie_id": 1, "no_of_ratings": 5000, "rating": 4},
+    {"movie_id": 1, "no_of_ratings": 500, "rating": 3},
+    {"movie_id": 1, "no_of_ratings": 50, "rating": 2},
+    {"movie_id": 1, "no_of_ratings": 5, "rating": 1},
+    {"movie_id": 2, "no_of_ratings": 40000, "rating": 5},
+    {"movie_id": 2, "no_of_ratings": 4000, "rating": 4},
+    {"movie_id": 2, "no_of_ratings": 400, "rating": 3},
+    {"movie_id": 2, "no_of_ratings": 40, "rating": 2},
+    {"movie_id": 2, "no_of_ratings": 4, "rating": 1},
+    {"movie_id": 3, "no_of_ratings": 30000, "rating": 5},
+    {"movie_id": 3, "no_of_ratings": 3000, "rating": 4},
+    {"movie_id": 3, "no_of_ratings": 300, "rating": 3},
+    {"movie_id": 3, "no_of_ratings": 30, "rating": 2},
+    {"movie_id": 3, "no_of_ratings": 3, "rating": 1},
+    {"movie_id": 4, "no_of_ratings": 20000, "rating": 5},
+    {"movie_id": 4, "no_of_ratings": 2000, "rating": 4},
+    {"movie_id": 4, "no_of_ratings": 200, "rating": 3},
+    {"movie_id": 4, "no_of_ratings": 20, "rating": 2},
+    {"movie_id": 4, "no_of_ratings": 2, "rating": 1},
+    {"movie_id": 5, "no_of_ratings": 10000, "rating": 5},
+    {"movie_id": 5, "no_of_ratings": 1000, "rating": 4},
+    {"movie_id": 5, "no_of_ratings": 100, "rating": 3},
+    {"movie_id": 5, "no_of_ratings": 10, "rating": 2},
+    {"movie_id": 5, "no_of_ratings": 1, "rating": 1}
+]
+
 CAST = [
     {
         "movie": {"title": "Endgame"},
@@ -142,6 +172,15 @@ def create_movie():
     return list_of_movies
 
 
+def create_rating():
+    list_of_ratings = []
+    for item in RATING:
+        rating = MovieRating.objects.create(movie=Movie.objects.get(id=item["movie_id"]), rating=item["rating"],
+                                            no_of_ratings=item["no_of_ratings"])
+        list_of_ratings.append(rating)
+    return list_of_ratings
+
+
 def create_movie_cast():
     list_of_movie_cast = []
     for item in CAST:
@@ -154,46 +193,24 @@ def create_movie_cast():
 
 
 def convert_actor_object_to_dict(actor):
-    return {"name": actor.name, "gender": actor.gender, "date_of_birth": actor.date_of_birth,
+    return {"name": actor.name, "gender": actor.gender, "date_of_birth": str(actor.date_of_birth),
             "unique_id": actor.unique_id}
 
 
-def convert_moviecast_object_to_dict(moviecast_query_set):
-    movie_cast_dictionary={}
-    for moviecast in moviecast_query_set:
-        movie_cast_dictionary['movie']=convert_movie_object_to_dict(moviecast.movie)
-        list_of_casts=[]
-        cast_dictionary={}
-        for actor in moviecast.cast.all():
-            cast_dictionary["actor"]= convert_actor_object_to_dict(actor)
-            cast_dictionary["role"]=actor.moviecast_set.role
-            cash_dictionary ["remuneration_in_usd"]=actor.moviecast_set.remuneration_in_usd
-            list_of_casts.append(cast_dictionary)
-        movie_cast_dictionary ['cast']=list_of_casts
-    return movie_cast_dictionary 
- 
-
-
 def convert_movie_object_to_dict(movie):
-    return {"movie_id": movie.id, "title": movie.title, "date_of_release": movie.date_of_release}
+    return {"movie_id": movie.id, "title": movie.title, "date_of_release": str(movie.date_of_release)}
 
 
 def starts_with(title):
-    movie_query_set = Movie.objects.filter(title__istartswith=title)
-    for movie_object in movie_query_set:
-        return movie_object.title
+    return Movie.objects.filter(title__istartswith=title).values_list('title', flat=True)
 
 
 def ends_with(title):
-    movie_query_set = Movie.objects.filter(title__iendswith=title)
-    for movie_object in movie_query_set:
-        return movie_object.title
+    return Movie.objects.filter(title__iendswith=title).values_list('title', flat=True)
 
 
 def contains(title):
-    movie_query_set = Movie.objects.filter(title__icontains=title)
-    for movie_object in movie_query_set:
-        return movie_object.title
+    return Movie.objects.filter(title__icontains=title).values_list('title', flat=True)
 
 
 def top_paid_actor():
@@ -207,87 +224,126 @@ def least_paid_actor():
 
 
 def actors_born_in_a_month(month):
-    actor_query_set = Actor.objects.filter(date_of_birth__month=month).order_by('-date_of_birth')
+    actor_objects = Actor.objects.filter(date_of_birth__month=month).order_by('-date_of_birth')
     list_of_actors = []
-    for actor_object in actor_query_set:
-        list_of_actors.append(convert_actor_object_to_dict(actor_object))
+    for actor in actor_objects:
+        list_of_actors.append(convert_actor_object_to_dict(actor))
     return list_of_actors
 
 
 def movies_casted_by_actors(unique_id):
-    movie_cast = MovieCast.objects.filter(cast__unique_id=unique_id).order_by('-movie__date_of_release')
+    movie_ids = MovieCast.objects.filter(cast__unique_id=unique_id).order_by('-movie__date_of_release').values_list(
+        'movie__id', flat=True).distinct()
     list_of_movies = []
-    for movie in movie_cast:
-        print(movie.movie)
-        list_of_movies.append(convert_movie_object_to_dict(movie.movie))
+    movie_objects = Movie.objects.filter(id__in=movie_ids)
+    for movie in movie_objects:
+        list_of_movies.append(convert_movie_object_to_dict(movie))
     return list_of_movies
 
 
 def get_actor_by_month_and_role():
-    actor_query_set = Actor.objects.filter(date_of_birth__month=2, moviecast__role="heroine")
+    actor_objects = Actor.objects.filter(date_of_birth__month=2, moviecast__role="heroine")
     list_of_actors = []
-    for actor in actor_query_set:
+    for actor in actor_objects:
         list_of_actors.append(convert_actor_object_to_dict(actor))
     return list_of_actors
 
 
 def get_actress_with_remuneration_in_between():
-    moviecast_query_set = MovieCast.objects.filter(remuneration_in_usd__lte=150000,
-                                                   remuneration_in_usd__gte=50000).order_by('cast__name')
+    actor_ids = MovieCast.objects.filter(remuneration_in_usd__lte=150000,
+                                         remuneration_in_usd__gte=50000).order_by('cast__name').values_list('cast_id',
+                                                                                                            flat=True).distinct()
+
     list_of_actors = []
-    for moviecast in moviecast_query_set:
-        list_of_actors.append((convert_actor_object_to_dict(moviecast.cast)))
+    actor_objects = Actor.objects.filter(id__in=actor_ids)
+    for actor in actor_objects:
+        list_of_actors.append((convert_actor_object_to_dict(actor)))
     return list_of_actors
 
 
 def get_actors_casted_in_movies():
-    moviecast_query_set = MovieCast.objects.filter(
+    actor_ids = MovieCast.objects.filter(
         Q(movie__title='Titanic') | Q(movie__title='Avatar') | Q(movie__title='Endgame')).order_by(
-        'remuneration_in_usd')
+        'remuneration_in_usd').values_list('cast_id', flat=True).distinct()
     list_of_actors = []
-    for moviecast in moviecast_query_set:
-        list_of_actors.append(convert_actor_object_to_dict(moviecast.cast))
+    actor_objects = Actor.objects.filter(id__in=actor_ids)
+    for actor in actor_objects:
+        list_of_actors.append(convert_actor_object_to_dict(actor))
     return list_of_actors
 
 
 def get_actors_casted_in_particular_movies():
-    moviecast_query_set = MovieCast.objects.filter(
+    actor_ids = MovieCast.objects.filter(
         (Q(movie__title='Titanic') | Q(movie__title='Avatar')) & (
                 ~Q(movie__title='Inception') | ~Q(movie__title='Clash of titans'))).order_by(
-        'remuneration_in_usd')
+        'remuneration_in_usd').values_list('cast_id', flat=True).distinct()
+    actor_objects = Actor.objects.filter(id__in=actor_ids)
     list_of_actors = []
-    for moviecast in moviecast_query_set:
-        list_of_actors.append(convert_actor_object_to_dict(moviecast.cast))
+    for actor in actor_objects:
+        list_of_actors.append(convert_actor_object_to_dict(actor))
     return list_of_actors
 
 
 def all_the_actors_casted(list_of_movie_titles):
-    unique_actors = []
-    actor_id=[]
-    for movie_title in list_of_movie_titles:
-        moviecast_query_set = MovieCast.objects.filter(movie__title=movie_title)
-        for moviecast in moviecast_query_set:
-            actors_dict=convert_actor_object_to_dict(moviecast.cast)
-            if actors_dict not in unique_actors:
-                unique_actors.append(actors_dict)
-    return unique_actors
+    list_of_actors = []
+    actor_ids = MovieCast.objects.filter(movie__title__in=list_of_movie_titles).values_list('cast_id',
+                                                                                            flat=True).distinct()
+    actor_objects = Actor.objects.filter(id__in=actor_ids)
+    for actor in actor_objects:
+        list_of_actors.append(convert_actor_object_to_dict(actor))
+    return list_of_actors
+
+
+def complete_details_in_dict(moviecast, title):
+    movie = Movie.objects.get(title=title)
+    movie_cast_dictionary = {'movie': convert_movie_object_to_dict(movie)}
+    list_of_casts = []
+    for movie_cast_obj in moviecast:
+        cast_dictionary = {
+            "actor": convert_actor_object_to_dict(movie_cast_obj.cast),
+            "role": movie_cast_obj.role,
+            "remuneration_in_usd": movie_cast_obj.remuneration_in_usd
+        }
+        list_of_casts.append(cast_dictionary)
+    movie_cast_dictionary['cast'] = list_of_casts
+
+    list_of_ratings = []
+    for ratings in movie.movie_ratings.all():
+        rating_dictionary = {"no_of_ratings": ratings.no_of_ratings,
+                             "rating": ratings.rating
+                             }
+        list_of_ratings.append(rating_dictionary)
+    movie_cast_dictionary["ratings"] = list_of_ratings
+
+    return movie_cast_dictionary
 
 
 def complete_movie_details(title):
     moviecast_query_set = MovieCast.objects.filter(movie__title=title)
-    complete_details = []
-    for moviecast in moviecast_query_set:
-        complete_details.append(convert_moviecast_object_to_dict(moviecast))
-    return complete_details
+    return complete_details_in_dict(moviecast_query_set, title)
 
 
 def match_months():
-    moviecast_query_set = MovieCast.objects.filter(movie__date_of_release__month=F('cast__date_of_birth__month'))
+    movie_ids = MovieCast.objects.filter(movie__date_of_release__month=F('cast__date_of_birth__month')).values_list(
+        'movie__id', flat=True).distinct()
+    movie_objects = Movie.objects.filter(id__in=movie_ids)
     list_of_movies = []
-    list_of_movies_id=[]
-    for moviecast in moviecast_query_set:
-        movie_id=moviecast.movie.id
-        if movie_id not in list_of_movies_id:
-            list_of_movies_id.append(movie_id)
-            list_of_movies.append(convert_movie_object_to_dict(moviecast.movie))
+    for movie in movie_objects:
+        list_of_movies.append(convert_movie_object_to_dict(movie))
     return list_of_movies
+
+
+def movie_rating_more_than():
+    movie_objects = Movie.objects.filter(movie_ratings__rating=5, movie_ratings__no_of_ratings__gte=20000)
+    list_of_movies = []
+    for movie in movie_objects:
+        list_of_movies.append(convert_movie_object_to_dict(movie))
+    return list_of_movies
+
+
+def add_ratings():
+    MovieRating.objects.filter(movie__actor__name="Robert Downey Jr", rating=1).update(
+        no_of_ratings=F('no_of_ratings') + 100)
+    return
+
+

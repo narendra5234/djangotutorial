@@ -32,12 +32,8 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     # 'polls.apps.PollsConfig',
-    #'many2many.apps.Many2ManyConfig',
-    #'many2one.apps.Many2OneConfig',
-    #'one2one.apps.One2OneConfig',
-    #'new.apps.NewConfig',
-    'imdb.apps.ImdbConfig',
-    #'fbpost.apps.FbpostConfig',
+    #'imdb.apps.ImdbConfig',
+    'fbpost.apps.FbpostConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
